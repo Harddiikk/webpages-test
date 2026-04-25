@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Landing Page</title>
+</head>
+<body>
+
+  <h1 id="headline">Loading...</h1>
+  <p id="subtext"></p>
+
+  <script>
+    const p = new URLSearchParams(window.location.search);
+    const name = p.get('fname') || 'there';
+    const company = p.get('company') || 'your company';
+    const industry = p.get('industry') || 'your industry';
+
+    document.getElementById('headline').innerText =
+      `Hey ${name}, here's how we help ${industry} businesses like ${company}`;
+
+    document.getElementById('subtext').innerText =
+      `We've worked with companies in the ${industry} space and know exactly what's slowing you down.`;
+  </script>
+
+</body>
+</html>
