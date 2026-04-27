@@ -306,7 +306,7 @@ footer {
 </header>
 
 <section class="hero">
-    <h1>Collections</h1>
+    <h1 id="hero-title">Collections</h1>
 </section>
 
 <div class="main-container">
@@ -331,13 +331,13 @@ footer {
     </aside>
 
     <main class="content-area">
-        <h2 class="content-title">Power Your Data Center Generator Application with Kennametal</h2>
+        <h2 class="content-title" id="content-title">Power Your Data Center Generator Application with Kennametal</h2>
         
         <div class="article-layout">
             <div class="article-text">
-                <p>Data centers are power-hungry facilities at any scale, and the boom in data center construction to meet the computing requirements of AI expansion requires a parallel boom in parts for power generation.</p>
-                <p>This expansion is set to rely on diesel- and natural gas- powered internal combustion engines. The trouble is that parts for these engines are often made from steel or cast iron. Cast iron breaks up like powder when machined and proves highly abrasive, wearing tools quickly and threatening job profitability for unprepared shops. While many tooling providers can provide a well-engineered tool for a small handful of applications in power generation, sourcing tools across the full spectrum of applications — to say nothing of sourcing support for these applications — requires a partner company with experience in power generation, data centers and engines.</p>
-                <p>Download this guide to learn more about tackling power generator applications.</p>
+                <p id="article-intro">Data centers are power-hungry facilities at any scale, and the boom in data center construction to meet the computing requirements of AI expansion requires a parallel boom in parts for power generation.</p>
+                <p id="article-body">This expansion is set to rely on diesel- and natural gas- powered internal combustion engines. The trouble is that parts for these engines are often made from steel or cast iron. Cast iron breaks up like powder when machined and proves highly abrasive, wearing tools quickly and threatening job profitability for unprepared shops. While many tooling providers can provide a well-engineered tool for a small handful of applications in power generation, sourcing tools across the full spectrum of applications — to say nothing of sourcing support for these applications — requires a partner company with experience in power generation, data centers and engines.</p>
+                <p id="article-cta-text">Download this guide to learn more about tackling power generator applications.</p>
                 <i>By submitting this form, you authorize Gardner Business Media to share your provided contact information with Kennametal.</i>
             </div>
             <div class="article-image">
@@ -362,27 +362,27 @@ footer {
             <div class="form-row">
                 <div class="form-group" style="flex: 100%;">
                     <label>Email Address <span>*</span></label>
-                    <input type="email">
+                    <input type="email" id="field-email">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>First Name <span>*</span></label>
-                    <input type="text">
+                    <input type="text" id="field-fname">
                 </div>
                 <div class="form-group">
                     <label>Last Name <span>*</span></label>
-                    <input type="text">
+                    <input type="text" id="field-lname">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label>Company Name <span>*</span></label>
-                    <input type="text">
+                    <input type="text" id="field-company">
                 </div>
                 <div class="form-group">
                     <label>Job Title <span>*</span></label>
-                    <input type="text">
+                    <input type="text" id="field-title">
                 </div>
             </div>
             <div class="form-row">
@@ -412,7 +412,7 @@ footer {
                 <span>*</span> <input type="checkbox"> <label>Do you want to subscribe to the Modern Machine Shop newsletters?</label>
             </div>
             
-            <button class="submit-btn">Submit</button>
+            <button class="submit-btn" id="submit-btn">Submit</button>
         </div>
     </main>
 </div>
@@ -505,5 +505,39 @@ footer {
     </div>
 </footer>
 
+<script>
+  const p = new URLSearchParams(window.location.search);
+  const fname = p.get('fname') || '';
+  const lname = p.get('lname') || '';
+  const email = p.get('email') || '';
+  const company = p.get('company') || 'your company';
+  const title = p.get('title') || '';
+  const industry = p.get('industry') || 'manufacturing';
+
+  // Pre-fill form
+  if (fname) document.getElementById('field-fname').value = fname;
+  if (lname) document.getElementById('field-lname').value = lname;
+  if (email) document.getElementById('field-email').value = email;
+  if (company) document.getElementById('field-company').value = company;
+  if (title) document.getElementById('field-title').value = title;
+
+  // Personalize copy
+  if (fname || company) {
+    const n = fname || 'there';
+    const c = company;
+
+    document.getElementById('article-intro').innerText =
+      `${n}, data centers are scaling fast and ${c} needs tooling partners who understand the full application spectrum.`;
+
+    document.getElementById('article-body').innerText =
+      `${industry} manufacturers like ${c} often machine cast iron and steel parts for power generation. Cast iron is highly abrasive, wearing tools fast and threatening job profitability. Kennametal covers every application — with support to match.`;
+
+    document.getElementById('article-cta-text').innerText =
+      `Download this guide to see exactly how Kennametal solves power generator applications for ${industry} teams like ${c}.`;
+
+    document.getElementById('submit-btn').innerText =
+      `Download ${c}'s Guide`;
+  }
+</script>
 </body>
 </html>
