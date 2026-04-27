@@ -1,110 +1,903 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Personalized Landing Page</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConvrsAI - Revenue Validation and Qualification Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
+    /* From index.css */
     body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: white;
+      margin: 0;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      background-attachment: fixed;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .container {
-      max-width: 700px;
-      padding: 40px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* From LandingPage.css */
+    .landing-page {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0a0e27 0%, #0f172a 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .landing-hero {
+      padding-top: 100px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 80px 20px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-      animation: fadeIn 0.8s ease;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+      position: relative;
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-      line-height: 1.3;
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+      pointer-events: none;
     }
 
-    p {
-      font-size: 1.1rem;
-      color: #cbd5f5;
-      margin-bottom: 25px;
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
-    .cta {
-      display: inline-block;
-      padding: 14px 28px;
-      background: #3b82f6;
-      color: white;
-      border-radius: 10px;
-      text-decoration: none;
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 auto 24px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      color: #cbd5e1;
+      margin: 0 auto 20px;
+      max-width: 800px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .hero-description {
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      color: #94a3b8;
+      margin: 0 auto 48px;
+      max-width: 700px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary-large,
+    .btn-secondary-large {
+      padding: 16px 40px;
+      font-size: 1rem;
       font-weight: 600;
-      transition: 0.3s;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-block;
+      border: none;
     }
 
-    .cta:hover {
-      background: #2563eb;
+    .btn-primary-large {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-primary-large:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.5);
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    }
+
+    .btn-secondary-large {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 2px solid rgba(59, 130, 246, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary-large:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(59, 130, 246, 0.8);
       transform: translateY(-2px);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+    /* Section Styles */
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      color: #60a5fa;
+      text-align: center;
+      margin-bottom: 48px;
+      font-weight: 600;
+    }
+
+    /* Problem Section */
+    .problem-section {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .problem-content {
+      max-width: 900px;
+      margin: 0 auto;
+      color: #cbd5e1;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    .problem-text {
+      font-size: 1.125rem;
+      margin-bottom: 24px;
+      color: #e2e8f0;
+    }
+
+    .problem-list {
+      list-style: none;
+      padding: 0;
+      margin: 32px 0;
+      text-align: left;
+    }
+
+    .problem-list li {
+      padding: 12px 0 12px 32px;
+      position: relative;
+      font-size: 1.0625rem;
+      color: #cbd5e1;
+    }
+
+    .problem-list li::before {
+      content: '✗';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      color: #ef4444;
+      font-weight: bold;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .problem-highlight {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 4px solid #ef4444;
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 8px;
+      font-size: 1.0625rem;
+      color: #fecaca;
+    }
+
+    .problem-conclusion {
+      font-size: 1.125rem;
+      margin-top: 32px;
+      color: #e2e8f0;
+      line-height: 1.8;
+    }
+
+    .problem-conclusion strong {
+      color: #60a5fa;
+      font-weight: 700;
+    }
+
+    /* Solution Section */
+    .solution-section {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+      padding: 100px 0;
+    }
+
+    .solution-intro {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.125rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .solution-intro strong {
+      color: #60a5fa;
+      font-weight: 700;
+    }
+
+    /* How It Works Section */
+    .how-it-works-section {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 100px 0;
+    }
+
+    .how-it-works-intro {
+      max-width: 900px;
+      margin: 0 auto 48px;
+      font-size: 1.125rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+      align-items: stretch;
+    }
+
+    .feature-card {
+      background: rgba(26, 31, 58, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+      background: rgba(26, 31, 58, 0.95);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      line-height: 1.3;
+      text-align: left;
+    }
+
+    .feature-description {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #60a5fa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 16px 0 8px;
+    }
+
+    .feature-why {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 20px 0 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.9375rem;
+      color: #cbd5e1;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .feature-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Outcome Section */
+    .outcome-section {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+      padding: 100px 0;
+    }
+
+    .outcome-intro {
+      font-size: 1.25rem;
+      color: #cbd5e1;
+      text-align: center;
+      margin-bottom: 32px;
+      font-weight: 600;
+    }
+
+    .outcome-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto 40px;
+      max-width: 700px;
+      text-align: left;
+    }
+
+    .outcome-list li {
+      padding: 16px 0 16px 40px;
+      position: relative;
+      font-size: 1.0625rem;
+      color: #cbd5e1;
+    }
+
+    .outcome-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      color: #10b981;
+      font-weight: bold;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .outcome-conclusion {
+      font-size: 1.25rem;
+      color: #60a5fa;
+      text-align: center;
+      font-weight: 700;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Built For Section */
+    .built-for-section {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 100px 0;
+    }
+
+    .built-for-text {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.125rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* CTA Section Final */
+    .cta-section-final {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+      padding: 120px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section-final::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 24px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.5rem);
+      color: #cbd5e1;
+      margin-bottom: 48px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-button-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+    }
+
+    /* Footer */
+    .footer-section {
+      background: rgba(10, 14, 39, 0.8);
+      border-top: 1px solid rgba(59, 130, 246, 0.2);
+      padding: 60px 20px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: #93c5fd;
+      text-decoration: underline;
+    }
+
+    .footer-sep {
+      color: #475569;
+      user-select: none;
+    }
+
+    .footer-subtext {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
       }
     }
 
-    @media(max-width: 600px) {
-      .container {
-        padding: 25px;
+    @media (max-width: 768px) {
+      .landing-hero {
+        padding-top: 100px;
       }
 
-      h1 {
-        font-size: 1.6rem;
+      .hero-section,
+      .section-container {
+        padding: 60px 20px;
+      }
+
+      .problem-section,
+      .solution-section,
+      .how-it-works-section,
+      .outcome-section,
+      .built-for-section {
+        padding: 60px 0;
+      }
+
+      .cta-section-final {
+        padding: 80px 20px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-primary-large,
+      .btn-secondary-large {
+        width: 100%;
+      }
+
+      .problem-list li,
+      .outcome-list li {
+        padding-left: 28px;
+      }
+
+      .section-title {
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+      }
+
+      .section-subtitle {
+        font-size: clamp(1rem, 3vw, 1.25rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      .hero-section,
+      .section-container {
+        padding: 40px 16px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.75rem, 8vw, 2.5rem);
       }
     }
   </style>
 </head>
 
-<body>
+<body class="bg-[#0a0e27]">
 
-  <div class="container">
-    <h1 id="headline">Loading...</h1>
-    <p id="subtext"></p>
+  <!-- Navbar -->
+  <nav
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#0a0e27]/95 backdrop-blur-md border-b border-blue-500/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-18 lg:h-20">
+        <!-- Brand logo -->
+        <a href="/" class="flex items-center gap-2 hover:opacity-90 transition-opacity" aria-label="ConvrsAI home">
+          <span class="text-white font-bold text-2xl tracking-tighter">Convrs<span
+              class="text-blue-500">.ai</span></span>
+        </a>
 
-    <a href="#" class="cta">Book a Free Demo</a>
+        <!-- Desktop Navigation  -->
+        <div class="hidden lg:flex items-center gap-6 xl:gap-8">
+          <a href="/privacy-policy"
+            class="text-gray-300 hover:text-blue-400 transition-colors text-sm font-medium">Privacy Policy</a>
+          <a href="/terms" class="text-gray-300 hover:text-blue-400 transition-colors text-sm font-medium">Terms</a>
+
+          <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1LRerQzILalOQbfT9l5lWQ6abwrkk6n45IbqR_cPsf8tH09a8kVlButSqrKMTkMo1De-h8vUdB"
+            target="_blank" rel="noopener noreferrer"
+            class="px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all shadow-lg shadow-blue-600/30 whitespace-nowrap">
+            Book a Demo
+          </a>
+          <div class="flex items-center gap-3">
+            <button class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Sign
+              In</button>
+            <button
+              class="px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all shadow-lg shadow-blue-600/30">Get
+              Started</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="landing-page">
+    <div class="landing-hero pt-32">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 id="hero-title" class="hero-title">
+            Revenue Validation and Qualification Platform
+          </h1>
+          <p id="hero-subtitle" class="hero-subtitle">
+            ConvrsAI by Market Wavegen ensures only real, verified buying intent reaches your sales team.
+          </p>
+          <p id="hero-desc" class="hero-description">
+            Most demand systems detect interest. ConvrsAI by Market Wavegen proves buyer reality before sales ever
+            engages.
+          </p>
+          <div class="hero-cta">
+            <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1LRerQzILalOQbfT9l5lWQ6abwrkk6n45IbqR_cPsf8tH09a8kVlButSqrKMTkMo1De-h8vUdB"
+              target="_blank" rel="noopener noreferrer" class="btn-primary-large cta-btn">
+              Book a Demo
+            </a>
+            <button class="btn-secondary-large">
+              Sign In
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problem Section -->
+      <section class="problem-section">
+        <div class="section-container">
+          <h2 class="section-title">The Problem: Activity Is Not Revenue Reality</h2>
+          <p class="section-subtitle">Activity Creates Pipeline. Validation Creates Revenue.</p>
+          <div class="problem-content">
+            <p id="problem-text" class="problem-text">
+              Modern revenue teams are drowning in leads but starving for certainty. Forms get completed. Content gets
+              downloaded. Signals get triggered. Yet sales conversations begin with friction:
+            </p>
+            <ul class="problem-list">
+              <li>"I don't remember filling this out."</li>
+              <li>Wrong phone numbers</li>
+              <li>Students posing as buyers</li>
+              <li>Vendors downloading competitor assets</li>
+              <li>Junior employees entering enterprise funnels</li>
+            </ul>
+            <p id="problem-highlight" class="problem-highlight">
+              Pipeline looks healthy until it meets reality. Every unvalidated lead introduces risk: Wasted SDR
+              capacity, Slower deal cycles, Forecast volatility, Rising acquisition costs, Sales and marketing
+              misalignment.
+            </p>
+            <p class="problem-conclusion">
+              <strong>The problem isn't lead generation. The problem is lead trustworthiness.</strong> ConvrsAI by
+              Market Wavegen fixes this before revenue is exposed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Solution Section -->
+      <section class="solution-section">
+        <div class="section-container">
+          <h2 class="section-title">What ConvrsAI by Market Wavegen Does</h2>
+          <p class="solution-intro">
+            ConvrsAI by Market Wavegen is a Revenue Validation Platform and Qualification Engine designed to ensure
+            every lead entering your CRM represents a real buying opportunity. It evaluates each lead as a risk decision
+            not just a record.
+          </p>
+          <p class="solution-intro">
+            ConvrsAI by Market Wavegen validates: <strong>The business, The buyer, The intent, The readiness</strong> —
+            Before sales touches the lead.
+          </p>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section class="how-it-works-section">
+        <div class="section-container">
+          <h2 class="section-title">How ConvrsAI by Market Wavegen Works</h2>
+          <p class="section-subtitle">System-Level View</p>
+          <p class="how-it-works-intro">
+            ConvrsAI by Market Wavegen ingests leads from any source and applies multiple validation and qualification
+            layers:
+          </p>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🔍</div>
+              <h3>Deep Web Lead Validation</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen validates each lead using deep web search and multiple data sources not just
+                a single provider. It verifies: Company legitimacy, Website presence and activity, Industry
+                classification, Geographic relevance.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Most bad leads look good on the surface. Deep web validation removes: Fake companies, Dormant
+                businesses, Mismatched industries. Sales only sees real, active businesses.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🏢</div>
+              <h3>Firmographic Verification</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen cross-checks and normalizes: Company size, Revenue band, Employee count,
+                Growth indicators. Each lead is matched against your ICP rules.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Revenue leakage happens when: SMBs enter enterprise funnels, Budget-fit is assumed, Sales spends cycles
+                disqualifying. ConvrsAI by Market Wavegen filters misaligned accounts before they reach sales.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">👤</div>
+              <h3>Job Role and Title Validation</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen validates: Job title accuracy, Role seniority, Decision influence,
+                Department relevance. It removes inflated, misleading, or irrelevant titles.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Titles lie. Roles do not. This prevents: Non-decision makers reaching SDRs, Junior roles entering ABM
+                motions, Late-stage deal blockers. Sales starts with the right buyer, every time.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">✉️</div>
+              <h3>AI-Led Email Qualification</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen runs automated, intent-focused email conversations that: Ask
+                qualification-driven questions, Detect readiness signals, Adapt follow-ups dynamically, Capture explicit
+                buying cues.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Email opens and clicks do not equal intent. AI-led dialogue: Clarifies interest, Identifies urgency,
+                Surfaces real buying windows. Marketing learns before sales calls.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">📞</div>
+              <h3>AI-Powered Voice Qualification</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen places short, AI-led voice calls to: Confirm interest, Validate urgency,
+                Capture objections, Identify next steps. Calls are structured, consistent, and context aware.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Voice reveals truth faster than forms. This removes: SDR discovery calls, First-call disqualification,
+                "I don't remember filling the form" conversations. Sales receives clarity, not confusion.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🧠</div>
+              <h3>Conversation Intelligence</h3>
+              <p class="feature-description">What It Does</p>
+              <p>ConvrsAI by Market Wavegen converts every interaction into: Intent summaries, Objection signals, Timing
+                indicators, Sales-ready context. All attached directly to the lead.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Sales doesn't need to rediscover context. They enter conversations informed. Deals move faster.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">⭐</div>
+              <h3>Lead Confidence Scoring</h3>
+              <p class="feature-description">What It Does</p>
+              <p>Each lead receives a confidence score based on: Validation depth, Firmographic fit, Role relevance,
+                Conversation outcomes, Confirmed intent signals.</p>
+              <p class="feature-why">Why It Matters</p>
+              <p>Sales prioritizes certainty over volume. Forecasting improves. Pipeline becomes predictable.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Outcome Section -->
+      <section class="outcome-section">
+        <div class="section-container">
+          <h2 class="section-title">The Outcome: No More Wasted Leads</h2>
+          <p class="outcome-intro">With ConvrsAI by Market Wavegen:</p>
+          <ul class="outcome-list">
+            <li>No more wrong phone numbers</li>
+            <li>No more "I never filled this form"</li>
+            <li>No more irrelevant titles in sales queues</li>
+            <li>No more SDR time wasted on disqualification</li>
+            <li>No more pipelines built on assumptions</li>
+          </ul>
+          <p class="outcome-conclusion">
+            Only validated, qualified, sales-ready demand reaches your team.
+          </p>
+        </div>
+      </section>
+
+      <!-- Built For Section -->
+      <section class="built-for-section">
+        <div class="section-container">
+          <h2 class="section-title">Built for Modern B2B Revenue Teams</h2>
+          <p class="built-for-text">
+            ConvrsAI by Market Wavegen works across: All B2B industries, Any lead source or campaign, Any CRM or sales
+            workflow. If your business depends on pipeline quality, ConvrsAI by Market Wavegen becomes a critical
+            control layer in your revenue system.
+          </p>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section-final">
+        <div class="section-container">
+          <h2 id="cta-title" class="cta-title">Turn Demand into Revenue Reality</h2>
+          <p class="cta-subtitle">Stop sending uncertainty to sales. Start sending validated buying intent.</p>
+          <div class="cta-button-wrapper">
+            <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1LRerQzILalOQbfT9l5lWQ6abwrkk6n45IbqR_cPsf8tH09a8kVlButSqrKMTkMo1De-h8vUdB"
+              target="_blank" rel="noopener noreferrer" class="btn-primary-large cta-btn">
+              Book a Demo
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer-section">
+        <div class="footer-content">
+          <p class="footer-text">
+            © 2026 ConvrsAI by Market Wavegen. All rights reserved.
+          </p>
+          <nav aria-label="Legal links" class="footer-links">
+            <a href="/terms" class="footer-link">Terms and Conditions</a>
+            <span class="footer-sep"> • </span>
+            <a href="/privacy-policy" class="footer-link">Privacy Policy</a>
+          </nav>
+          <p class="footer-subtext">
+            Built for Modern B2B Revenue Teams
+          </p>
+        </div>
+      </footer>
+    </div>
   </div>
 
-  <script>
-    const p = new URLSearchParams(window.location.search);
-    const name = p.get('fname') || 'there';
-    const company = p.get('company') || 'your company';
-    const industry = p.get('industry') || 'your industry';
+<script>
+  const p = new URLSearchParams(window.location.search);
+  const name = p.get('fname') || 'there';
+  const company = p.get('company') || 'your company';
+  const industry = p.get('industry') || 'B2B';
+  const role = p.get('role') || '';
+  const pain = p.get('pain') || 'sdr_waste';
 
-    document.getElementById('headline').innerText =
-      `Hey ${name}, here's how we help ${industry} businesses like ${company}`;
+  // 1. Hero Title
+  document.getElementById('hero-title').innerText =
+    `Hey ${name}, ${company}'s sales team is probably chasing leads that were never real.`;
 
-    document.getElementById('subtext').innerText =
-      `We've worked with companies in the ${industry} space and know exactly what's slowing you down — and how to fix it with automation.`;
-  </script>
+  // 2. Hero Subtitle
+  document.getElementById('hero-subtitle').innerText =
+    `We help ${industry} companies like ${company} stop wasting SDR cycles on unqualified demand.`;
 
+  // 3. Hero Description
+  const roleMessages = {
+    'vp_sales': `As a sales leader, you know forecast volatility kills quarters. ConvrsAI proves buyer reality before your team ever picks up the phone.`,
+    'revops': `RevOps runs on pipeline health. ConvrsAI validates every lead before it pollutes your CRM.`,
+    'cmo': `Marketing hands off leads. ConvrsAI ensures what you hand off is actually real.`,
+  };
+  document.getElementById('hero-desc').innerText =
+    roleMessages[role] || `Most demand systems detect interest. ConvrsAI proves buyer reality before sales ever engages.`;
+
+  // 4. Problem text
+  document.getElementById('problem-text').innerText =
+    `${industry} revenue teams deal with this constantly — forms get completed, content downloaded, signals triggered. Yet ${company}'s sales conversations still begin with friction.`;
+
+  // 5. CTA Title
+  document.getElementById('cta-title').innerText =
+    `${name}, see exactly how this works for ${company}`;
+
+  // 6. CTA Buttons
+  document.querySelectorAll('.cta-btn').forEach(btn => {
+    btn.innerText = `See How This Works for ${company}`;
+  });
+</script>
 </body>
+
 </html>
