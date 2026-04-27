@@ -862,41 +862,36 @@
 
 <script>
   const p = new URLSearchParams(window.location.search);
-  const name = p.get('fname') || 'there';
-  const company = p.get('company') || 'your company';
+  const name = p.get('fname');
+  const company = p.get('company');
   const industry = p.get('industry') || 'B2B';
   const role = p.get('role') || '';
-  const pain = p.get('pain') || 'sdr_waste';
 
-  // 1. Hero Title
-  document.getElementById('hero-title').innerText =
-    `Hey ${name}, ${company}'s sales team is probably chasing leads that were never real.`;
+  if (name || company) {
+    const n = name || 'there';
+    const c = company || 'your company';
 
-  // 2. Hero Subtitle
-  document.getElementById('hero-subtitle').innerText =
-    `We help ${industry} companies like ${company} stop wasting SDR cycles on unqualified demand.`;
+    document.getElementById('hero-title').innerText =
+      `Hey ${n} — ${c}'s sales team is chasing leads that were never real.`;
 
-  // 3. Hero Description
-  const roleMessages = {
-    'vp_sales': `As a sales leader, you know forecast volatility kills quarters. ConvrsAI proves buyer reality before your team ever picks up the phone.`,
-    'revops': `RevOps runs on pipeline health. ConvrsAI validates every lead before it pollutes your CRM.`,
-    'cmo': `Marketing hands off leads. ConvrsAI ensures what you hand off is actually real.`,
-  };
-  document.getElementById('hero-desc').innerText =
-    roleMessages[role] || `Most demand systems detect interest. ConvrsAI proves buyer reality before sales ever engages.`;
+    document.getElementById('hero-subtitle').innerText =
+      `We help ${industry} companies like ${c} stop wasting SDR time on unqualified demand.`;
 
-  // 4. Problem text
-  document.getElementById('problem-text').innerText =
-    `${industry} revenue teams deal with this constantly — forms get completed, content downloaded, signals triggered. Yet ${company}'s sales conversations still begin with friction.`;
+    const roleMap = {
+      vp_sales: `As a sales leader, forecast volatility kills quarters. ConvrsAI proves buyer reality before your reps ever pick up the phone.`,
+      revops: `RevOps lives on pipeline health. ConvrsAI validates every lead before it pollutes your CRM.`,
+      cmo: `Marketing hands off leads. ConvrsAI ensures what you hand off is actually real.`,
+    };
+    document.getElementById('hero-desc').innerText =
+      roleMap[role] || `Most demand systems detect activity. ConvrsAI proves buyer reality before sales ever engages.`;
 
-  // 5. CTA Title
-  document.getElementById('cta-title').innerText =
-    `${name}, see exactly how this works for ${company}`;
+    document.getElementById('cta-title').innerText =
+      `${n}, see exactly how this works for ${c}`;
 
-  // 6. CTA Buttons
-  document.querySelectorAll('.cta-btn').forEach(btn => {
-    btn.innerText = `See How This Works for ${company}`;
-  });
+    document.querySelectorAll('.cta-btn').forEach(btn => {
+      btn.innerText = `See How This Works for ${c}`;
+    });
+  }
 </script>
 </body>
 
