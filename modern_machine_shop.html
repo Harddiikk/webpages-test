@@ -510,27 +510,27 @@ footer {
   const fname = p.get('fname') || '';
   const lname = p.get('lname') || '';
   const email = p.get('email') || '';
-  const company = p.get('company') || 'your company';
+  const company = p.get('company') || '';
   const title = p.get('title') || '';
   const industry = p.get('industry') || 'manufacturing';
 
-  // Pre-fill form
+  // Pre-fill form fields
   if (fname) document.getElementById('field-fname').value = fname;
   if (lname) document.getElementById('field-lname').value = lname;
   if (email) document.getElementById('field-email').value = email;
   if (company) document.getElementById('field-company').value = company;
   if (title) document.getElementById('field-title').value = title;
 
-  // Personalize copy
+  // Personalize copy only if data exists
   if (fname || company) {
     const n = fname || 'there';
-    const c = company;
+    const c = company || 'your company';
 
     document.getElementById('article-intro').innerText =
-      `${n}, data centers are scaling fast and ${c} needs tooling partners who understand the full application spectrum.`;
+      `${n}, data centers are scaling fast and ${industry} manufacturers like ${c} need tooling partners who understand the full application spectrum.`;
 
     document.getElementById('article-body').innerText =
-      `${industry} manufacturers like ${c} often machine cast iron and steel parts for power generation. Cast iron is highly abrasive, wearing tools fast and threatening job profitability. Kennametal covers every application — with support to match.`;
+      `Parts for these engines are often made from steel or cast iron — highly abrasive materials that wear tools quickly and threaten job profitability. ${c} needs a partner with experience across the full spectrum of power generation applications, not just a handful.`;
 
     document.getElementById('article-cta-text').innerText =
       `Download this guide to see exactly how Kennametal solves power generator applications for ${industry} teams like ${c}.`;
