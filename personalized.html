@@ -117,8 +117,8 @@
       const industry = p.get('industry') || '';
       const role     = p.get('role')     || '';
 
-      // --- which site to embed (defaults to your ConvrsAI page) ---
-      const targetBase = p.get('site') || 'https://convrsai.vercel.app/';
+      // --- which site to embed (defaults to the client site) ---
+      const targetBase = p.get('site') || 'https://odgleads.com/';
 
       // --- booking link for the overlay CTA button ---
       const cta = p.get('cta') ||
@@ -146,10 +146,18 @@
       ctaBtn.textContent = company ? `See it for ${company}` : 'Book a Demo';
 
       // --- load the iframe ---
+      // Our own Vercel pages allow framing -> embed directly so they can
+      // read the forwarded params and personalize their own content.
+      // Any other site (e.g. odgleads.com) blocks framing via
+      // X-Frame-Options, so route it through our proxy which strips that.
       const frame = document.getElementById('siteFrame');
       const loader = document.getElementById('loader');
       frame.addEventListener('load', () => { loader.style.display = 'none'; });
-      frame.src = inner.toString();
+
+      const isOwnSite = /(^|\.)convrsai\.vercel\.app$/i.test(inner.hostname);
+      frame.src = isOwnSite
+        ? inner.toString()
+        : '/api/proxy?url=' + encodeURIComponent(inner.toString());
     })();
   </script>
 
