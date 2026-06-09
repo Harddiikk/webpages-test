@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personalized Experience</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #0b192c;
+      overflow: hidden;
+    }
+
+    /* Personalized overlay bar */
+    .personal-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(90deg, #0b192c 0%, #112a47 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 99999;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .personal-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .badge {
+      background: #2563eb;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .greeting {
+      font-size: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .greeting b { font-weight: 700; }
+    .personal-cta {
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background .15s ease;
+    }
+    .personal-cta:hover { background: #1d4ed8; }
+
+    /* The iframed client site */
+    .site-frame {
+      position: fixed;
+      top: 60px; left: 0;
+      width: 100%;
+      height: calc(100% - 60px);
+      border: none;
+    }
+
+    /* Loading state */
+    .loader {
+      position: fixed;
+      top: 60px; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8aa0bd;
+      font-size: 15px;
+      background: #0b192c;
+    }
+
+    @media (max-width: 640px) {
+      .greeting { font-size: 13px; }
+      .personal-cta { padding: 7px 12px; font-size: 12px; }
+      .badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="personal-bar">
+    <div class="personal-left">
+      <span class="badge">Personalized</span>
+      <span class="greeting" id="greeting">Loading your personalized experience...</span>
+    </div>
+    <a class="personal-cta" id="cta" href="#">Book a Demo</a>
+  </div>
+
+  <div class="loader" id="loader">Loading…</div>
+  <iframe class="site-frame" id="siteFrame" title="Personalized site"></iframe>
+
+  <script>
+    (function () {
+      const p = new URLSearchParams(window.location.search);
+
+      // --- read personalization data from this page's URL ---
+      const fname    = p.get('fname')    || '';
+      const company  = p.get('company')  || '';
+      const industry = p.get('industry') || '';
+      const role     = p.get('role')     || '';
+
+      // --- which site to embed (defaults to your ConvrsAI page) ---
+      const targetBase = p.get('site') || 'https://convrsai.vercel.app/';
+
+      // --- booking link for the overlay CTA button ---
+      const cta = p.get('cta') ||
+        'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1LRerQzILalOQbfT9l5lWQ6abwrkk6n45IbqR_cPsf8tH09a8kVlButSqrKMTkMo1De-h8vUdB';
+
+      // --- build the iframe URL: forward the same params so the
+      //     embedded page personalizes its OWN content too ---
+      const inner = new URL(targetBase);
+      if (fname)    inner.searchParams.set('fname', fname);
+      if (company)  inner.searchParams.set('company', company);
+      if (industry) inner.searchParams.set('industry', industry);
+      if (role)     inner.searchParams.set('role', role);
+
+      // --- overlay banner text ---
+      const name = fname || 'there';
+      const co   = company || 'your company';
+      document.getElementById('greeting').innerHTML =
+        `Hey <b>${name}</b> — here's how this works for <b>${co}</b>`;
+
+      // --- overlay CTA ---
+      const ctaBtn = document.getElementById('cta');
+      ctaBtn.href = cta;
+      ctaBtn.target = '_blank';
+      ctaBtn.rel = 'noopener';
+      ctaBtn.textContent = company ? `See it for ${company}` : 'Book a Demo';
+
+      // --- load the iframe ---
+      const frame = document.getElementById('siteFrame');
+      const loader = document.getElementById('loader');
+      frame.addEventListener('load', () => { loader.style.display = 'none'; });
+      frame.src = inner.toString();
+    })();
+  </script>
+
+</body>
+</html>
